@@ -1,0 +1,339 @@
+@import url('https://forts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+.modal::backdrop{
+  background-color: rgba(0, 0, 0,0.5);
+}
+
+
+/* .container{
+    min-zoom: 75%;
+} */
+    body {
+    position: center;
+    margin: 20px; 
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    min-height: 100vh; /* Cambié height a min-height para evitar problemas con contenido más largo */
+    background-color: white; /*Cambia esto al color de fondo deseado */
+    overflow: hidden;
+     }
+
+     h2{  
+      font-family: 'Ubuntu', sans-serif;
+      font-size: 2.5rem;
+      align-items: center;
+      color: #512da8
+      }
+    /* Buscador */
+      form input{
+        display: flex;
+        align-items: center;
+        height: 40px;
+        border-radius: 40px;
+        padding: 5px 20px;
+        padding-left: 35px;
+        font-size: 18px;
+        outline: none;
+        border: 1px solid #5c6bc0;
+      }
+      
+      button {
+        background-color: #4070f4;
+        padding-left: 2%;
+        display: flex;
+        align-items: center;
+        font-size: 19px;
+        width: 15%;
+        height: 45px;
+        margin-left: 75%;
+        color: #4070f4;
+        border: none;
+        border-radius: 25px;
+        color: #fff;
+        cursor: pointer;
+        margin-left: 2250px;
+      }
+
+      i{
+        padding: 0%;
+        display:flex;
+        margin: 5%;
+        font-size: 1.75rem;
+      }
+      
+      input {
+        padding: 8px;
+      }
+
+       .ion-icon{
+        position: flex;
+        top: 0%;
+        left: 10px;
+        font-size: 1.2rem;
+        color: #4070f4;
+        }
+
+    /* Tabla */
+    table {
+    width: 120%;
+    margin-top: 20px;
+    overflow-x: auto; /* Agrega desplazamiento horizontal en pantallas pequeñas */
+    white-space: nowrap; /* Evita el salto de línea en las celdas */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Añade puntos suspensivos si el contenido es demasiado largo */
+    margin-left: 100px; /* Mueve la tabla hacia la derecha */
+    margin-right: auto;
+    }
+  
+    thead {
+    background-color: #5c6bc0;
+    color: white;
+    }
+  
+    th, td {
+    border: 0px solid #5c6bc0;
+    text-align: center;
+    padding: 8px;
+    /* max-width: 500px; Establece un ancho máximo para las celdas */
+    }
+  
+    th {
+    background-color: #5c6bc0;
+    }
+  
+    tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+    }
+  
+    tbody tr:hover {
+    background-color: #f1f1f1;
+    }
+
+     td {
+        max-width: 80%;
+        white-space: normal;
+        word-wrap: break-word; /* Permite que el texto haga saltos de línea */
+        overflow-wrap: break-word; /* Permite que el texto haga saltos de línea */
+        word-break: break-word; /* Fuerza el salto de palabras en cualquier parte del texto */
+    }
+
+/* ESTILOS DE AGREGAR PACIENTES*/
+
+    @import url('https://forts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+    *{
+        box-sizing: content-box;
+        font-family: 'Poppins',sans-serif;
+    }
+
+    
+    
+    /* body{
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+    } */
+
+    dialog{
+      border: 0px;
+      /* margin: 65px; 
+      width: 1050px;
+      height: 600px; */
+      /* left: 200px; */
+      margin-top: 16px;
+      min-height: 490px;
+      border-radius: 6px;
+    }
+    .container{
+        position: relative;
+        max-width: 100%;
+        /* width: 100%; */
+        border-radius: 6px;
+        padding: 10px;
+        margin: 20px 15px 0;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    
+    /* .container span{
+        position: relative;
+        font-size: 19px;
+        font-weight: 600;
+        color: #333;
+    } */
+    
+    .container header{
+        position: relative;
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .container header::before {
+        content:"";
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        height: 3px;
+        width: 27px;
+        border-radius: 8px;
+        background-color: #4070f4;
+    }
+    
+    .container form {
+        /* position: center; */
+        margin-top: 50px;
+        min-height: 100px;
+        background-color: #fff;
+        max-width: 100%;
+    }
+    
+    .container form .details{
+        margin-top: 30px;
+    }
+    
+    /* .container form .details .ID{
+        margin-top: 10px;
+    } */
+    
+    .container form .title{
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-variant: 500px;
+        margin: 6px 0;
+        color: #4070f4;
+    }
+    
+    .container form .fields{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    form .fields .input-field{
+        display: flex;
+        width: calc(100% / 3 - 15px);
+        /* background-color: red; */
+        flex-direction: column;
+        margin: 4px 0;
+    }
+    
+    .input-field label{
+        font-size: 14px;
+        font-weight: 500;
+        color: #2e2e2e;
+    }
+    
+    .input-field input{
+        outline: none;
+        font-size: 14px;
+        font-weight: 400;
+        color: #333;
+        border-radius: 5px ;
+        border: 1px solid #aaa;
+        padding: 0 15px;
+        height: 42px;
+        margin: 8px 0;
+    }
+    
+    .input-field select{
+        outline: none;
+        font-size: 14px;
+        font-weight: 400;
+        color: #333;
+        border-radius: 5px ;
+        border: 1px solid #aaa;
+        padding: 0 15px;
+        height: 42px;
+        margin: 8px 0;
+    }
+    
+    .input-field input:is(:focus, :valid){
+        box-shadow: 0 3px 6px rgba(45, 13, 255, 0.13);
+    }
+    
+    .input-field input[type="date"]{
+        color: #707070;
+    }
+    
+    .input-field input[type="date"]:valid{
+        color: #333;
+    }
+    
+    .container form button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 45px;
+        max-width: 200px;
+        width: 100%;
+        border: none;
+        outline: none;
+        color: #fff;
+        border-radius: 5px;
+        margin: 25px 0;
+        background-color: #4070f4;
+        transition: all 0.3s linear;
+        cursor: pointer;
+    }
+    
+    form button:hover{
+        background-color: #265df2;
+    } 
+    
+    form button i{
+        margin: 0 6px;
+    }
+    
+    @media (max-width: 750px){
+        .container form{
+            overflow-y: scroll;
+        }
+        .container form::-webkit-scrollbar{
+            display: none;
+        }
+    
+        form .fields .input-field{
+            width: calc(100% / 2 - 15px);
+        }
+    }
+    
+    @media (max-width:550px){
+        form .fields .input-field{
+            width: 100%;
+        }
+    }
+    
+    /* Media query para ajustar estilos en pantallas pequeñas */
+    @media (max-width: 600px) {
+        /* th:nth-child(1),
+        td:nth-child(1),        Estas dos son Nombre*/
+        /* th:nth-child(2),
+        td:nth-child(2),        Estas dos Apellido*/
+        th:nth-child(4),
+        td:nth-child(4),
+        th:nth-child(5),
+        td:nth-child(5),
+        th:nth-child(6),
+        td:nth-child(6),
+        th:nth-child(7),
+        td:nth-child(7) {
+          display: none;
+        }
+    th, td {
+      font-size: 12px; /* Ajusta según sea necesario */
+    }
+    td {
+        white-space: normal;
+      }
+      form input {
+        align-items: center;
+      }
+
+    }

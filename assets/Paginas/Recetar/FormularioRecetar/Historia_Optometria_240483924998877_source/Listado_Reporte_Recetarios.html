@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <!-- ===== CSS ======= -->
+            <link rel="stylesheet" href="style_Pacientes_Listado.css">
+            
+            <!-- Iconscout CSS     -->
+            <LInk rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"></LInk>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+            <LInk rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"></LInk>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>Listado/Ingresar Paciente</title>
+       
+       <style>
+            table, th, td{
+                /* border: 0px solid; */
+                border-radius: 10px;
+            }
+
+            table{
+                /* width: 80%; */
+                border-collapse: collapse;
+            }
+        </style>
+</head>
+<body>
+    <h2>Listado de Recetarios</h2>
+
+
+    <form action="uil uil-user-plu" method="post" name="search">                
+        <ion-icon name="search-outline"></ion-icon>
+        <input type="text" name="campo" id="campo" placeholder="Buscar Reporte">
+    </form>
+    <p></p>
+  
+    
+    
+
+
+<style>
+    .table-container {
+        overflow-x: auto; /* Permite desplazar horizontalmente la tabla si es necesario */
+        margin-left: -15px; /* Mueve la tabla 15px hacia la izquierda */
+    }
+    .table-container table {
+        border-collapse: collapse; /* Combina los bordes de las celdas */
+        width: 100%; /* Ancho completo */
+    }
+
+    /* Estilo para la cabecera de la tabla */
+    .table-container table thead {
+    background-color: #f2f2f2; /* Fondo gris claro */
+    font-weight: bold; /* Texto en negrita */
+    }
+/* Estilo para la cabecera de la tabla fija */
+    .table-container table thead.fixed-header {
+    position: fixed; /* Fija la cabecera en la parte superior */
+    top: 0; /* Fija la cabecera en la parte superior */
+    z-index: 1; /* Asegura que la cabecera esté por encima del contenido de la tabla */
+    background-color: white; /* Fondo blanco para cubrir el contenido cuando se desplaza */
+    width: 100%; /* Ancho completo */
+    width: calc(100% - 17px); /* Establece el mismo ancho que la tabla, considerando el ancho del scrollbar */
+    }
+
+    .table-container table thead.fixed-header th {
+            width: 157px; /* Ancho fijo */
+            padding: 8px; /* Ajusta el relleno */
+    }
+
+     .table-container table td {
+            width: 150px; /* Ancho fijo */
+            padding: 8px; /* Ajusta el relleno */
+            /* margin-right: 20px; */
+    }
+        /* Estilo para el cuerpo de la tabla */
+        .table-container table tbody {
+            overflow-y: auto; /* Permite desplazar verticalmente el cuerpo si es necesario */
+            max-height: 400px; /* Establece una altura máxima para el cuerpo */
+        }
+
+        /* Estilo para las filas del cuerpo */
+        .table-container table tbody tr {
+            display: table-row; /* Muestra las filas como filas de tabla */
+        }
+
+        /* Estilo para las celdas del cuerpo */
+        .table-container table tbody td {
+            width: 150px; /* Ancho fijo */
+            padding: 8px; /* Ajusta el relleno */
+            /* margin-right: 20px; */
+        }
+
+        .table-container table tbody td {
+            margin-left: 20px; /* Ajusta el margen izquierdo según tus necesidades */
+        }
+</style>
+
+ <div class="table-container">
+        <table>
+         <thead>
+            <!-- <th>IdReporte</th> -->
+            <th>Fecha de Creación</th>
+            <th>Cedula</th>
+            <th>Nombre del Paciente</th>
+            <th>Apellido del Paciente</th>
+            <th>Telefono/Celular</th>
+            <th>Email</th>
+            <th>Tipo de Cita</th>
+            <th>Doctor Encargado</th>
+        </thead>
+
+        <tbody id="content">
+
+        </tbody>
+    </table>
+ </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Función para sincronizar el ancho de las columnas en la cabecera fija con el cuerpo de la tabla
+        function syncTableWidths() {
+            $(".table-container table thead.fixed-header th").each(function(index) {
+                var headerWidth = $(this).outerWidth(); // Ancho de la columna en la cabecera fija
+                $(".table-container table tbody tr:first-child td:eq("+index+")").css('min-width', headerWidth); // Establece el ancho de la columna en el cuerpo de la tabla
+            });
+        }
+
+        var tableOffset = $(".table-container").offset().top;
+
+        // Sincroniza los anchos de las columnas al cargar la página
+        syncTableWidths();
+
+        $(window).scroll(function(){
+            var scroll = $(window).scrollTop();
+            if (scroll >= tableOffset) {
+                $(".table-container table thead").addClass("fixed-header");
+            } else {
+                $(".table-container table thead").removeClass("fixed-header");
+            }
+        });
+
+        // Sincroniza los anchos de las columnas al redimensionar la ventana
+        $(window).resize(function() {
+            syncTableWidths();
+        });
+    });
+</script> 
+
+<script>
+    getData()
+    document.getElementById("campo").addEventListener("keyup", getData)
+    function getData(){
+        let input = document.getElementById("campo").value
+        let content = document.getElementById("content")
+        let url = "load_Datos_De_Recetario.php" //<!--Tambien puede ser una ruta-->
+        let formData = new FormData()
+        formData.append('campo', input)
+
+        fetch(url, {
+            method: "POST",
+            body: formData
+        })
+        .then(Response => Response.json())
+        .then(data => {
+            content.innerHTML = data
+        }).catch(err => console.log(err))
+    }
+</script>
+</body>
+</html>

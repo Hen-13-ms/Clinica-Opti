@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <!-- ===== CSS ======= -->
+            <link rel="stylesheet" href="style_Inventario.css">
+            
+            <!-- Iconscout CSS     -->
+            <LInk rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"></LInk>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+            <LInk rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"></LInk>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inventario</title>
+       
+       <style>
+            table, th, td{
+                /* border: 0px solid; */
+                border-radius: 10px;
+            }
+
+            table{
+                /* width: 80%; */
+                border-collapse: collapse;
+            }
+        </style>
+            <!-- jQuery -->
+
+            <title>Listado de Pacientes</title>
+ </head>
+
+ <body>
+    <h2>Inventario</h2>
+        
+            <form action="uil uil-user-plu" method="post" name="search">                
+                <ion-icon name="search-outline"></ion-icon>
+                <input type="text" name="campo" id="campo" placeholder="Buscar Producto/Servicio">
+            </form>
+            <p></p>
+
+            <button onclick="" style="display: flex; margin-right: -1599px;  margin-left: 20px;">Imprimir Inventario
+                <i class="uil uil-user-plus" name="iconoPaciente"></i>
+            </button>
+            
+            
+            <button style="margin-top: -44px;" onclick="openModal()">Agregar Nuevo Producto/Servicio
+                <i class="uil uil-user-plus" name="iconoPaciente"></i>
+            </button>
+
+            <p></p>
+            
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    var tableOffset = $(".table-container").offset().top;
+            
+                    $(window).scroll(function(){
+                        var scroll = $(window).scrollTop();
+                        if (scroll >= tableOffset) {
+                            $(".table-container table thead").addClass("fixed-header");
+                        } else {
+                            $(".table-container table thead").removeClass("fixed-header");
+                        }
+                    });
+                });
+            </script> -->
+            
+            <!-- <style>
+                    /* Estilo para la cabecera de la tabla */
+                    .table-container table thead {
+                    background-color: #f2f2f2; /* Fondo gris claro */
+                    font-weight: bold; /* Texto en negrita */
+                    }
+                /* Estilo para la cabecera de la tabla fija */
+                .table-container table thead.fixed-header {
+                    position: fixed; /* Fija la cabecera en la parte superior */
+                    top: 0; /* Fija la cabecera en la parte superior */
+                    z-index: 1; /* Asegura que la cabecera esté por encima del contenido de la tabla */
+                    background-color: white; /* Fondo blanco para cubrir el contenido cuando se desplaza */
+                    width: calc(100%); /* Establece el mismo ancho que la tabla, considerando el ancho del scrollbar */
+                }
+                
+            </style> -->
+
+        <div class="table-container">
+         <table>
+        <thead>
+            <!-- <th>IdPaciente</th> -->
+            <!-- <th>ID</th> -->
+            <th style="font-size: 17px;">Tipo</th>
+            <th style="font-size: 17px;">Descripcion</th>
+            <th style="font-size: 17px;">Categoria</th>
+            <th style="font-size: 17px;">Marca</th>
+            <th style="font-size: 17px;">Modelo</th>
+            <th style="font-size: 17px;">Cantidad En Stock</th>
+            <th style="font-size: 17px;">Precio Unitario</th>
+            <th style="font-size: 17px;">Proveedor</th>
+            <th style="font-size: 17px;">Fecha De Compra</th>
+            <th style="font-size: 17px;">Fecha Vencimiento</th>
+            <th style="font-size: 17px;">Ubicacion En Inventario</th>
+            <th style="font-size: 17px;">Estado Del Producto</th>
+            <th style="font-size: 17px;">Notas</th>
+            <!-- <th>Cantidad Minima Requerida En Stock</th> -->
+            <!-- <th>Alerta De Reordenamiento</th> -->
+            <th style="font-size: 17px;">Costo Total</th>
+            <th style="font-size: 17px;">Precio Para Pacientes</th>
+            <!-- <th>Acciones</th> -->
+            <!-- <th>Nombre Y Apellido</th> -->
+            <!-- <th>Celular</th> -->
+            <!-- <th>Parentesco</th> -->
+            <!-- <th></th> Editar -->
+            <!-- <th></th> Eliminar -->
+        </thead>
+
+        <tbody id="content">
+
+        </tbody>
+    </table>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var tableOffset = $(".table-container").offset().top;
+
+            $(window).scroll(function(){
+                var scroll = $(window).scrollTop();
+                if (scroll >= tableOffset) {
+                    $(".table-container table thead").addClass("fixed-header");
+                    // Ajusta el ancho de las celdas de la cabecera
+                    $(".table-container table thead th").each(function(index) {
+                        $(this).width($(".table-container table tbody tr:first-child td").eq(index).width());
+                    });
+                } else {
+                    $(".table-container table thead").removeClass("fixed-header");
+                }
+            });
+        });
+    </script>
+    
+<script>
+    getData()
+    document.getElementById("campo").addEventListener("keyup", getData)
+    function getData(){
+        let input = document.getElementById("campo").value
+        let content = document.getElementById("content")
+        let url = "load_CargarDatos.php" //<!--Tambien puede ser una ruta--> 
+        let formData = new FormData()
+        formData.append('campo', input)
+
+        fetch(url, {
+            method: "POST",
+            body: formData
+        }).then(Response => Response.json())
+        .then(data => {
+            content.innerHTML = data
+        }).catch(err => console.log(err))
+    }
+</script>
+
+<!-- Modal Ingresar pacientes  -->
+<dialog class= "modal" id="mainModal">
+
+    <div class="container">
+        <header>Ingresar Producto/Servicio</header>
+
+        <form action="AgregarProductoServicio.php" method="POST">
+            <div class="form first">
+                <div class="details personal">
+                    <span class="title">Datos Del Producto/Servicio</span>
+
+                    <div class="fields">
+                        <!-- <div class="input-field">
+                            <label for="">ID_de_cliente</label>
+                            <input type="text" placeholder="" required>
+                        </div> -->
+                        <div class="input-field">
+                            <label for="">Selecciona el Tipo</label>
+                            <select name="tipo">
+                                <option selected="selected">¿Producto o Servicio?</option>
+                                <option>Producto</option>
+                                <option>Servicio</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Descripcion</label>
+                            <input type="text" placeholder="Nombre del Producto/Servicio" name="nombre" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Categoria</label>
+                            <input type="text" placeholder="Lentes/Accesorios/Servicios..." name="categoria" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Marca</label>
+                            <input type="text" placeholder="Marca del producto" name="marca" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Modelo</label>
+                            <input type="text" placeholder="Modelo del Producto" name="modelo" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Cantidad En Stock</label>
+                            <input type="text" placeholder="Cantidad de Productos" name="cantidad" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Precio Unitario</label>
+                            <input type="text" placeholder="Precio de Producto/Servicio" name="preciounitario" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Proveedor</label>
+                            <input type="text" placeholder="Quien Provee es..." name="proveedor" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Fecha de Compra</label>
+                            <input type="date" placeholder="Fecha en la que se compro" name="fechaDeCompra" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Fecha de Vencimiento</label>
+                            <input type="date" placeholder="Fecha de Vencimiento" name="fechaVencimiento" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Ubicacion En Inventario</label>
+                            <input type="text" placeholder="Donde esta el producto" name="ubicacion" required>
+                        </div>
+
+
+
+                        <div class="input-field">
+                            <label for="">Estado Del Producto</label>
+                            <select name="estadoDeProducto">
+                                <option selected="selected">Selecciona Estado Del Producto...</option>
+                                <option>Nuevo</option>
+                                <option>Usado</option>
+                                <option>En Reparacion</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Notas</label>
+                            <input type="text" placeholder="Comentario adicional" name="agregauncomentario" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Costo Total</label>
+                            <input type="text" placeholder="Multiplica cantidad por precio unitario." name="costoTotal" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Precio Para Pacientes</label>
+                            <input type="number" placeholder="Precio dirigido a clientes." name="precioparacliente" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Descuento</label>
+                            <input type="number" placeholder="Descuento en el Producto/Servicio." name="descuento" required>
+                        </div>
+
+                    </div>
+                </div>
+                    <button class="saveBtn">
+                        <span class="btnText">Guardar</span>
+                        <i class="uil uil-save"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <a href=""></a>
+    <script src="modal.js"></script>
+</dialog>
+
+</body>
+</html>
