@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Actividades</title>
+    <style>
+        body {
+            font-family: Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background: linear-gradient(to right, #e2e2e2 0%, #c9d6ff 30%); /* Ajustamos el inicio del degradado hacia la izquierda */
+        }
+
+        .container {
+            max-width: 1700px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            min-width: 100%;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        thead {
+            background-color: #5c6bc0;
+            color: white;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #5c6bc0;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Agregado un estilo para que la primera fila (cabecera) tenga bordes redondeados */
+        thead tr th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        thead tr th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        /* Estilos para los bordes redondeados de la última fila */
+        tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+
+        tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Aplica nowrap solo a las celdas de las columnas específicas */
+        .nowrap {
+            white-space: nowrap;
+        }
+        h1 {
+            text-align: center; /* Centra el texto */
+        }
+        th.fecha {
+            width: 120px; /* Puedes ajustar este valor según tus necesidades */
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Informe de Actividades Realizadas.</h1>
+        <h3>Busca por el rango de fecha deseado...</h3>
+
+        <div style="display: flex; align-items: center;">
+            <input type="text" id="nombreObservado" name="nombreO" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; margin-right: 10px; font-size: 16px; width: 20%;" readonly>
+            <input type="text" id="apellidoObservado" name="apellidoO" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; margin-right: 10px; font-size: 16px; width: 20%;" readonly>
+            
+            <label for="fechaInicio" style="display: block; margin-bottom: 5px; font-size: 16px;">Desde:</label>
+            <input type="date" id="fechaInicio" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; margin-right: 10px; font-size: 16px; width: 20%;">
+            <label for="fechaFin" style="display: block; margin-bottom: 5px; margin-right: 10px; font-size: 16px;">Hasta:</label>
+            <input type="date" id="fechaFin" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; margin-right: 10px; font-size: 16px; width: 20%;">
+            <button type="button" onclick="buscarDatos()" style="padding: 8px 12px; background-color: #5c6bc0; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 10%;">Buscar</button>
+        </div>
+        <table id="actividades-table">
+            <thead>
+                <tr>
+                    <th class="nowrap fecha">Fecha</th>
+                    <th class="nowrap" >Hora</th>
+                    <th class="nowrap">Nombre Usuario</th>
+                    <th class="nowrap">Apellido Usuario</th>
+                    <th class="nowrap">Cargo de Usuario</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="content">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+    function cargarDatos() {
+        fetch('load_Cargar_Datos.php') // Asegúrate de especificar la ruta correcta
+            .then(response => response.json())
+            .then(data => {
+                const content = document.getElementById('content');
+                content.innerHTML = '';
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    Object.values(row).forEach(cellData => {
+                        const td = document.createElement('td');
+                        td.textContent = cellData;
+                        tr.appendChild(td);
+                    });
+                    content.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error al cargar datos:', error));
+    }
+
+    function buscarDatos() {
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+        
+        // Obtener todos los inputs
+        const nombreObservado = document.getElementById('nombreObservado').value.trim().toLowerCase();
+        const apellidoObservado = document.getElementById('apellidoObservado').value.trim().toLowerCase();
+        
+        // Obtener todas las filas de la tabla
+        const rows = document.querySelectorAll('#actividades-table tbody tr');
+
+        // Iterar sobre cada fila y ocultar las que no están dentro del rango de fechas o no cumplen con los datos observados
+        rows.forEach(row => {
+            const fecha = row.cells[0].textContent; // Obtener la fecha de la primera celda
+            const nombre = row.cells[2].textContent.trim().toLowerCase(); // Obtener el nombre de usuario
+            const apellido = row.cells[3].textContent.trim().toLowerCase(); // Obtener el apellido de usuario
+            
+            if ((fecha < fechaInicio || fecha > fechaFin) || (nombre !== nombreObservado && apellido !== apellidoObservado)) {
+                row.style.display = 'none';
+            } else {
+                row.style.display = ''; // Mostrar la fila si cumple con los criterios
+            }
+        });
+    }
+
+    
+        // Función para obtener los parámetros de la URL
+        function obtenerParametroURL(nombre) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(nombre);
+        }
+
+        // Función para asignar valores a los inputs
+        function asignarValoresInputs() {
+            const nombre = obtenerParametroURL('nombre');
+            const apellido = obtenerParametroURL('apellido');
+            if (nombre && apellido) {
+                document.getElementById('nombreObservado').value = nombre;
+                document.getElementById('apellidoObservado').value = apellido;
+            }
+        }
+        window.onload = function() {
+            cargarDatos();
+            asignarValoresInputs();
+        };
+    </script>
+
+
+</body>
+</html>
